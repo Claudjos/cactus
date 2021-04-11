@@ -19,6 +19,11 @@ FunctionApp
 |	|-- __init__.py
 ```
 
+#### Installing
+```
+pip install pycactus
+```
+
 #### How to run
 
 ###### Create a file "wsgi.py"
