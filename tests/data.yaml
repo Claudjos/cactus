@@ -5,6 +5,12 @@
     status: 200
 
 - request:
+    method: PATCH
+    url: /api/note
+  response:
+    status: 405
+
+- request:
     method: GET
     url: /api/1234/abc/info
   response:
