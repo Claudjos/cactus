@@ -1,28 +1,4 @@
 {
   "scriptFile": "__init__.py",
-  "bindings": [
-    {
-      "authLevel": "Anonymous",
-      "type": "httpTrigger",
-      "direction": "in",
-      "name": "req",
-      "methods": [
-        "get"
-      ],
-      "route": "invalid"
-    },
-    {
-      "type": "http",
-      "direction": "out",
-      "name": "$return"
-    },
-    {
-      "name": "msg",
-      "type": "serviceBusTrigger",
-      "direction": "in",
-      "topicName": "topicName",
-      "subscriptionName": "subscriptionName",
-      "connection": "AzureServiceBusConnectionString"
-    }
-  ]
+  invalid json file
 }
