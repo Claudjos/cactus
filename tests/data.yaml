@@ -1,0 +1,20 @@
+- request:
+    method: GET
+    url: /api/note
+  response:
+    status: 200
+
+- request:
+    method: GET
+    url: /api/1234/abc/info
+  response:
+    status: 404
+
+- request:
+    method: GET
+    url: /api/tests/1234/abc/info?a=1
+    headers:
+      api-key: mysecretapikey
+    body: payload=1&test=2
+  response:
+    status: 200
