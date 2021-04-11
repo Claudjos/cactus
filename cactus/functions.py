@@ -77,7 +77,7 @@ class Function:
 		if b.type == "httpTrigger" and a.type == "http":
 			t = a
 			a = b
-			b = a
+			b = t
 		self.trigger = HTTPTrigger(a.settings)
 		self.output = HTTP(b.settings)
 

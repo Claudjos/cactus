@@ -2,6 +2,11 @@
   "scriptFile": "__init__.py",
   "bindings": [
     {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
       "authLevel": "Anonymous",
       "type": "httpTrigger",
       "direction": "in",
@@ -12,11 +17,6 @@
         "delete"
       ],
       "route": "tests/{a}/{b}/info"
-    },
-    {
-      "type": "http",
-      "direction": "out",
-      "name": "$return"
     }
   ]
 }
