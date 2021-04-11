@@ -31,3 +31,15 @@ app = build_app("YourFunctionAppFolder")
 gunicorn wsgi:app
 ```
 Checkout the [examples](examples) for more.
+
+#### Testing
+Checkout the [tests](tests) too see how simple is to test your Function App with Cactus.
+```
+# Create a virtual environment 
+python3 -m venv venv
+source venv/bin/activate
+# Install requirements
+pip install -r requirements -r test-requirements
+# Run tests with coverage
+python -m pytest tests --cov=cactus
+```
