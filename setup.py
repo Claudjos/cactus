@@ -1,9 +1,14 @@
-import sys
 from setuptools import setup, find_packages
+from os import path
+
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 
 NAME = "pycactus"
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 REQUIRES = ["azure-functions"]
 
@@ -20,5 +25,6 @@ setup(
     packages=find_packages(),
     package_data={},
     include_package_data=False,
-    long_description="Adapter to run an Azure Function Application with a WSGI Web Server."
+    long_description_content_type='text/markdown',
+    long_description=long_description
 )
