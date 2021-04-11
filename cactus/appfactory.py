@@ -14,13 +14,16 @@ def build_app(path: str):
 	p = Project(r["project"])
 	params = []
 	for f in r["functions"]:
-		t = Function(*f)
-		url = "{}/{}".format(p.route_prefix, t.trigger.route)
-		logger.info("{} {}".format(", ".join(t.trigger.methods).upper(), url))
-		params.append((
-			url,
-			t.trigger.methods,
-			t.load_main(),
-			t.trigger.name
-		))
+		try:
+			t = Function(*f)
+			url = "{}/{}".format(p.route_prefix, t.trigger.route)
+			logger.info("[{}] {} {}".format(t.func_name, ", ".join(t.trigger.methods).upper(), url))
+			params.append((
+				url,
+				t.trigger.methods,
+				t.load_main(),
+				t.trigger.name
+			))
+		except ValueError as e:
+			logger.warning("[{}] Unable to mount Function: {}".format(f[0], e))
 	return WebApp(params)
