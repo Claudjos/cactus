@@ -12,7 +12,7 @@ class CactusClient:
 	def __init__(self, app):
 		self.app = app
 
-	def request(self, method: str, url: str, headers: dict = None, 
+	def request(self, method: str, uri: str, headers: dict = None, 
 		body: Union[bytes, str] = None) -> func.HttpResponse:
 		if headers is None:
 			headers = {}
@@ -20,12 +20,12 @@ class CactusClient:
 			body = b''
 		if isinstance(body, str):
 			body = body.encode()
-		parsed = urlparse(url)
+		parsed = urlparse(uri)
 		environ = {
 			"wsgi.input": BytesIO(body),
 			"REQUEST_METHOD": method,
 			"PATH_INFO": parsed.path,
-			"RAW_URI": url,
+			"RAW_URI": uri,
 			"QUERY_STRING": parsed.query,
 		}
 		for header in headers:

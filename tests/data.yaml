@@ -1,24 +1,24 @@
 - request:
     method: GET
-    url: /api/note
+    uri: /api/note
   response:
     status: 200
 
 - request:
     method: PATCH
-    url: /api/note
+    uri: /api/note
   response:
     status: 405
 
 - request:
     method: GET
-    url: /api/1234/abc/info
+    uri: /api/1234/abc/info
   response:
     status: 404
 
 - request:
     method: GET
-    url: /api/tests/1234/abc/info?a=1
+    uri: /api/tests/1234/abc/info?a=1
     headers:
       api-key: mysecretapikey
     body: payload=1&test=2
