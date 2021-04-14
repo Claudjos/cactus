@@ -3,3 +3,4 @@ pytest-coverage
 ddt
 pyyaml
 gunicorn
+pyfir>=0.0.3
