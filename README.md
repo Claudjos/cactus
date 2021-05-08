@@ -34,6 +34,7 @@ app = build_app("YourFunctionAppFolder")
 ###### Run it with a WSGI Web Server
 ```
 gunicorn wsgi:app
+uwsgi --http localhost:7071 --module wsgi:app
 ```
 Checkout the [examples](https://github.com/Claudjos/cactus/tree/main/examples) for more.
 
