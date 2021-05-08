@@ -13,7 +13,7 @@ def is_function(folder: str) -> bool:
 def get_functions(path: str) -> list:
 	functions = []
 	for file in os.listdir(path):
-		candidate = f"{path}/{file}"
+		candidate = "{}/{}".format(path, file)
 		if os.path.isdir(candidate):
 			if is_function(candidate):
 				functions.append((candidate, file))

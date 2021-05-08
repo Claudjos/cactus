@@ -34,11 +34,12 @@ app = build_app("YourFunctionAppFolder")
 ###### Run it with a WSGI Web Server
 ```
 gunicorn wsgi:app
+uwsgi --http localhost:7071 --module wsgi:app
 ```
-Checkout the [examples](examples) for more.
+Checkout the [examples](https://github.com/Claudjos/cactus/tree/main/examples) for more.
 
 #### Testing
-Checkout the [tests](tests) too see how simple is to test your Function App with Cactus.
+This module is tested using [Fir](https://pypi.org/project/pyfir/) WSGI client.
 ```
 # Create a virtual environment 
 python3 -m venv venv

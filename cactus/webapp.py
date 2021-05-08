@@ -51,7 +51,7 @@ class WebApp:
 	def build_regex(self):
 		for tup in self.init_params:
 			params_names = self.find_params_names_regex.findall(tup[0])
-			route_match_regex = re.compile(self.find_params_names_regex.sub("(.*?)", tup[0]) + "$")
+			route_match_regex = re.compile(self.find_params_names_regex.sub("([^/]*?)", tup[0]) + "$")
 			self.rules.append((route_match_regex, params_names, tup))
 
 	def select_handler(self, method: str, path: str):
@@ -125,6 +125,6 @@ class WebApp:
 				response.status_code,
 				self.get_status_message(response.status_code)
 			),
-			response.headers.items()
+			list(response.headers.items())
 		)
 		return self.response_to_body(response)
