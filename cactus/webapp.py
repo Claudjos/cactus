@@ -125,6 +125,6 @@ class WebApp:
 				response.status_code,
 				self.get_status_message(response.status_code)
 			),
-			response.headers.items()
+			list(response.headers.items())
 		)
 		return self.response_to_body(response)
