@@ -44,14 +44,30 @@ class WebApp:
 	def __init__(self, init_params: List[Tuple[str, List[str], Callable, str]]):
 		# (route, methods, function, param_name)
 		self.init_params = init_params
-		self.find_params_names_regex = re.compile(r"\{(\w*?)\}")
+		self.find_params_names_regex = re.compile(r"\{(.*?)\}")
+		self.find_regex_constraint = re.compile(r"regex\((.*?)\)")
 		self.rules = []
 		self.build_regex()
 		
 	def build_regex(self):
 		for tup in self.init_params:
 			params_names = self.find_params_names_regex.findall(tup[0])
-			route_match_regex = re.compile(self.find_params_names_regex.sub("([^/]*?)", tup[0]) + "$")
+			regex = tup[0] + "$"
+			for param in params_names:
+
+				if ":" in param:
+					name, constraint = param.split(":", 1)
+					try:
+						constraint = self.find_regex_constraint.findall(constraint)[0]
+						regex = regex.replace("{"+param+"}", "({})".format(constraint))
+						params_names[params_names.index(param)] = name
+					except:
+						logger.warning("Constraint not supported: {}".format(tup[0]))
+						regex = regex.replace("{"+param+"}", "([^/]*?)")
+				else:
+					regex = regex.replace("{"+param+"}", "([^/]*?)")
+
+			route_match_regex = re.compile(regex)
 			self.rules.append((route_match_regex, params_names, tup))
 
 	def select_handler(self, method: str, path: str):
