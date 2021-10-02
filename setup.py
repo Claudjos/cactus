@@ -8,8 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 
 NAME = "pycactus"
-VERSION = "0.0.8"
-
+VERSION = "0.0.9"
 REQUIRES = ["azure-functions"]
 
 
