@@ -8,8 +8,9 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 
 NAME = "pycactus"
-VERSION = "0.0.9"
+VERSION = "0.1.0"
 REQUIRES = ["azure-functions"]
+FLASK_REQUIRES = ["flask"]
 
 
 setup(
@@ -21,6 +22,9 @@ setup(
     url="https://github.com/Claudjos/cactus",
     keywords=["Azure Function", "Web App"],
     install_requires=REQUIRES,
+    extras_require={
+        "flask": FLASK_REQUIRES
+    },
     packages=find_packages(),
     package_data={},
     include_package_data=False,
