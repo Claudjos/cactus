@@ -1,3 +1,6 @@
+azure-functions
+flask
+
 pytest
 pytest-coverage
 ddt
