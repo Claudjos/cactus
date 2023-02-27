@@ -7,7 +7,7 @@ import logging
 
 
 logger = logging.getLogger("TEST")
-client = Client(build_app("examples/FunctionApp"))
+client = Client(build_app("examples/v1/FunctionApp"))
 
 
 @ddt
