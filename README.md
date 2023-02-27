@@ -22,6 +22,7 @@ FunctionApp
 #### Installing
 ```
 pip install pycactus
+pip install pycactus[flask] # to use Flask as web framework
 ```
 
 #### How to run
@@ -31,12 +32,26 @@ pip install pycactus
 from cactus.appfactory import build_app
 app = build_app("YourFunctionAppFolder")
 ```
+Or, to use Flask as web framework:
+```
+from cactus.flask import build_app
+app = build_app("YourFunctionAppFolder")
+```
 ###### Run it with a WSGI Web Server
 ```
 gunicorn wsgi:app
 uwsgi --http localhost:7071 --module wsgi:app
 ```
 Checkout the [examples](https://github.com/Claudjos/cactus/tree/main/examples) for more.
+
+#### Using Flask blueprints
+```
+from cactus.flask import build_blueprint
+
+app = flask.Flask(__name__)
+b = build_blueprint("myfunctionapp", "/path")
+app.register_blueprint(b)
+```
 
 #### Testing
 This module is tested using [Fir](https://pypi.org/project/pyfir/) WSGI client.
