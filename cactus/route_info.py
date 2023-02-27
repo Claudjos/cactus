@@ -43,7 +43,10 @@ def from_app(app: "azure.functions.FunctionApp") -> list[ROUTE_INFO]:
 			trigger = f.get_trigger()
 			handler = f.get_user_function()
 			handler.__name__ = fname
-			methods = trigger.methods or ["get"]
+			if trigger.methods is None:
+				methods = ["GET"]
+			else:
+				methods = [str(x) for x in trigger.methods]
 			logger.info("[{}] {} {}".format(fname, ",".join(methods), trigger.route))
 			output.append((trigger.route, methods, handler, fname))
 	return output
