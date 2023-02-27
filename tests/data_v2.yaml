@@ -1,0 +1,13 @@
+- request:
+    method: GET
+    uri: /hello_world
+  response:
+    status: 200
+    body: Hello World!
+
+- request:
+    method: POST
+    uri: /suggestions
+  response:
+    status: 200
+    body: Noted!
