@@ -1,7 +1,7 @@
 import flask, inspect, re
 import azure.functions as func
-from typing import Callable
-from .route_info import parse_project, ROUTE_INFO
+from typing import Callable, Union
+from .route_info import parse_project, parse_project_v2, from_app, ROUTE_INFO
 from . import logger
 
 
@@ -26,8 +26,10 @@ def adjust_route_for_flask(route: str) -> str:
 				route = route.replace("{"+param+"}", "<string:{}>".format(param))
 		else:
 			route = route.replace("{"+param+"}", "<string:{}>".format(param))
-
-	return "{}".format(route)
+	return "{}{}".format(
+		"" if route.startswith("/") else "/",
+		route
+	)
 
 
 def flask_request_to_azure(req: flask.Request) -> func.HttpRequest:
@@ -73,11 +75,22 @@ def build_blueprint(name: str, route_infos: list[ROUTE_INFO]) -> flask.Blueprint
 
 
 def build_app(path: str) -> flask.app.Flask:
+	return _build_app(parse_project(path), name=path)
+
+
+def build_app_v2(app: Union[str, "azure.functions.FunctionApp"]) -> flask.app.Flask:
+	if isinstance(app, str):
+		return _build_app(parse_project_v2(app))
+	else:
+		return _build_app(from_app(app))
+
+
+def _build_app(route_infos: list[ROUTE_INFO], name: str = "<app>") -> flask.app.Flask:
 	app = flask.Flask(__name__)
 	app.register_blueprint(
 		build_blueprint(
-			f"FunctionApp <{path}>", 
-			parse_project(path)
+			f"FunctionApp <{name}>",
+			route_infos
 		)
 	)
 	return app
