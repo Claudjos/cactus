@@ -8,6 +8,7 @@ Given the path of a folder containing a Function App, it builds a WSGI App parsi
 This software is meant to support only Function which use binding httpTrigger as input and http as output. No other binding types. This is not an Azure emulator.
 
 #### Function App structure
+##### V1
 ```
 FunctionApp
 |-- host.json
@@ -17,6 +18,13 @@ FunctionApp
 |-- function_2
 |	|-- function.json
 |	|-- __init__.py
+```
+##### V2
+```
+FunctionApp
+|-- host.json
+|-- local.settings.json
+|-- function_app.py
 ```
 
 #### Installing
@@ -37,6 +45,11 @@ Or, to use Flask as web framework:
 from cactus.flask import build_app
 app = build_app("YourFunctionAppFolder")
 ```
+Or, for V2 projects:
+```
+from cactus.flask import build_app_v2
+app = build_app_v2("YourFunctionAppFolder")
+```
 ###### Run it with a WSGI Web Server
 ```
 gunicorn wsgi:app
@@ -47,9 +60,19 @@ Checkout the [examples](https://github.com/Claudjos/cactus/tree/main/examples) f
 #### Using Flask blueprints
 ```
 from cactus.flask import build_blueprint
+from cactus.route_info import parse_project
 
 app = flask.Flask(__name__)
-b = build_blueprint("myfunctionapp", "/path")
+b = build_blueprint("myfunctionapp", parse_project("/path"))
+app.register_blueprint(b)
+```
+Or, for V2 projects:
+```
+from cactus.flask import build_blueprint
+from cactus.route_info import parse_project_v2
+
+app = flask.Flask(__name__)
+b = build_blueprint("myfunctionapp", parse_project_v2("/path"))
 app.register_blueprint(b)
 ```
 

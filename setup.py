@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 
 NAME = "pycactus"
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 REQUIRES = ["azure-functions"]
 FLASK_REQUIRES = ["flask"]
 
