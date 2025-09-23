@@ -1,7 +1,11 @@
 """
 Function entities.
 """
+import logging
 from importlib import import_module
+
+
+logger = logging.getLogger("__name__")
 
 
 class Project:
@@ -50,7 +54,7 @@ class HTTPTrigger(Binding):
 		if self.direction != "in":
 			raise ValueError("httpTrigger binding direction must be in")
 		if self.authLevel != "Anonymous":
-			raise ValueError("httpTrigger binding authLevel must be Anonymous")
+			logger.warning(f"httpTrigger binding authLevel '{self.authLevel}' not supported - using 'Anonymous'")
 
 	@property
 	def authLevel(self):
