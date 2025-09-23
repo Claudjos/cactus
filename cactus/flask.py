@@ -15,7 +15,9 @@ def adjust_route_for_flask(route: str) -> str:
 	The only constraint supported is "regex:()".
 	"""
 	for param in FIND_PARAMS_NAMES_REGEX.findall(route):
-		if ":" in param:
+		if param.startswith("*"):
+			route = route.replace("{"+param+"}", "<path:{}>".format(param[1:]))
+		elif ":" in param:
 			name, constraint = param.split(":", 1)
 			try:
 				constraint = FIND_REGEX_CONSTRAINT.findall(constraint)[0]
