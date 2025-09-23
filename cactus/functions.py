@@ -66,7 +66,7 @@ class HTTPTrigger(Binding):
 
 	@property
 	def route(self):
-		return self.settings.get("route", [])
+		return self.settings.get("route", None)
 
 
 class Function:
