@@ -14,7 +14,7 @@ class Project:
 
 	@property
 	def route_prefix(self):
-		prefix = self.settings.get("extensions", {}).get("http", {}).get("routePrefix", "/")
+		prefix = self.settings.get("extensions", {}).get("http", {}).get("routePrefix", "/api")
 		if not prefix.startswith("/"):
 			prefix = "/" + prefix
 		return prefix
