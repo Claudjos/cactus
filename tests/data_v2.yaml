@@ -11,3 +11,31 @@
   response:
     status: 200
     body: Noted!
+
+- request:
+    method: GET
+    uri: /books
+  response:
+    status: 200
+    body: "Fetch: all"
+
+- request:
+    method: GET
+    uri: /books/one
+  response:
+    status: 200
+    body: "Fetch: one"
+
+- request:
+    method: GET
+    uri: /files/README.md
+  response:
+    status: 200
+    body: "Path: /README.md"
+
+- request:
+    method: GET
+    uri: /files/examples/README.md
+  response:
+    status: 200
+    body: "Path: /examples/README.md"

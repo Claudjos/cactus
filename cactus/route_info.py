@@ -16,7 +16,8 @@ def parse_project(path: str) -> list[ROUTE_INFO]:
 	for f in r["functions"]:
 		try:
 			t = Function(*f)
-			url = "{}/{}".format(p.route_prefix, t.trigger.route)
+			route = f"{t.func_name}" if t.trigger.route is None else t.trigger.route
+			url = "{}/{}".format(p.route_prefix, route)
 			logger.info("[{}] {} {}".format(t.func_name, ", ".join(t.trigger.methods).upper(), url))
 			params.append((
 				url,
