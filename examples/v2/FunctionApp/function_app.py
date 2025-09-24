@@ -21,3 +21,10 @@ def _suggestion(req: func.HttpRequest) -> func.HttpResponse:
 def _books(req: func.HttpRequest) -> func.HttpResponse:
 	output = "Fetch: " + req.route_params.get("book", "all")
 	return func.HttpResponse(status_code=200, body=output)
+
+
+@app.function_name(name="files")
+@app.route(route="files/{*file}", methods=["GET"])
+def _file(req: func.HttpRequest) -> func.HttpResponse:
+	output = "Path: " + req.route_params.get("file")
+	return func.HttpResponse(status_code=200, body=output)
