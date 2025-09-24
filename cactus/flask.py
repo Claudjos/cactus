@@ -1,6 +1,7 @@
 import flask, inspect, re
 import azure.functions as func
 from typing import Callable, Union
+from uuid import uuid4
 from .route_info import parse_project, parse_project_v2, from_app, ROUTE_INFO
 from . import logger
 
@@ -10,8 +11,7 @@ FIND_REGEX_CONSTRAINT = re.compile(r"regex\(([^}]*)\)")
 
 
 def adjust_route_for_flask(route: str) -> str:
-	"""
-	Converts the route definition of Azure Function to the Flask format.
+	"""Converts the route definition of Azure Function to the Flask format.
 	The only constraint supported is "regex:()".
 	"""
 	for param in FIND_PARAMS_NAMES_REGEX.findall(route):
@@ -32,6 +32,18 @@ def adjust_route_for_flask(route: str) -> str:
 		"" if route.startswith("/") else "/",
 		route
 	)
+
+
+def adjust_route_for_flask_with_optional_params(route: str) -> list[str]:
+	"""Like adjust_route_for_flask, but returns a list of routes in order to
+	handle routes with optional parameters.
+	A route defined on Azure as /resources/{resource?} becomes two routes in flask:
+	/resources, and /resources/{resource}."""
+	route = adjust_route_for_flask(route)
+	if route.endswith("?>"):
+		return [route.replace("?>", ">"), route.rsplit("/", 1)[0]]
+	else:
+		return [route]
 
 
 def flask_request_to_azure(req: flask.Request) -> func.HttpRequest:
@@ -59,7 +71,7 @@ def wrap_handler(handler: Callable):
 		return azure_response_to_flask(handler(flask_request_to_azure(request)))
 	wrapper.__name__ = "{}_{}".format(
 		handler.__module__.replace(".", "_"),
-		handler.__name__
+		f"{handler.__name__}_{str(uuid4())}"
 	)
 	return wrapper
 
@@ -68,11 +80,12 @@ def build_blueprint(name: str, route_infos: list[ROUTE_INFO]) -> flask.Blueprint
 	blueprint = flask.Blueprint(name, __name__)
 	for path, methods, handler, input_name in route_infos:
 		logger.debug("[{}] {}".format(",".join(methods), path))
-		blueprint.route(
-			adjust_route_for_flask(path),
-			methods=methods,
-			strict_slashes=False
-		)(wrap_handler(handler))
+		for route in adjust_route_for_flask_with_optional_params(path):
+			blueprint.route(
+				route,
+				methods=methods,
+				strict_slashes=False
+			)(wrap_handler(handler))
 	return blueprint
 
 

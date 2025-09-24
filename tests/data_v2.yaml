@@ -11,3 +11,17 @@
   response:
     status: 200
     body: Noted!
+
+- request:
+    method: GET
+    uri: /books
+  response:
+    status: 200
+    body: "Fetch: all"
+
+- request:
+    method: GET
+    uri: /books/one
+  response:
+    status: 200
+    body: "Fetch: one"

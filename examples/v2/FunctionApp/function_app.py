@@ -14,3 +14,10 @@ def _hello_world(req: func.HttpRequest) -> func.HttpResponse:
 @app.route(route="suggestions", methods=["POST"])
 def _suggestion(req: func.HttpRequest) -> func.HttpResponse:
 	return func.HttpResponse(status_code=200, body="Noted!")
+
+
+@app.function_name(name="books")
+@app.route(route="books/{book?}", methods=["GET"])
+def _books(req: func.HttpRequest) -> func.HttpResponse:
+	output = "Fetch: " + req.route_params.get("book", "all")
+	return func.HttpResponse(status_code=200, body=output)
