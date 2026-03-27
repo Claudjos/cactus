@@ -66,9 +66,14 @@ def azure_response_to_flask(res: func.HttpResponse) -> flask.Response:
 
 
 def wrap_handler(handler: Callable):
-	def wrapper(*args, **kwargs):
-		from flask import request
-		return azure_response_to_flask(handler(flask_request_to_azure(request)))
+	if inspect.iscoroutinefunction(handler):
+		async def wrapper(*args, **kwargs):
+			from flask import request
+			return azure_response_to_flask(await handler(flask_request_to_azure(request)))
+	else:
+		def wrapper(*args, **kwargs):
+			from flask import request
+			return azure_response_to_flask(handler(flask_request_to_azure(request)))
 	wrapper.__name__ = "{}_{}".format(
 		handler.__module__.replace(".", "_"),
 		f"{handler.__name__}_{str(uuid4())}"
