@@ -1,6 +1,6 @@
 import flask, inspect, re
 import azure.functions as func
-from typing import Callable, Union
+from typing import Callable, Union, Coroutine
 from uuid import uuid4
 from .route_info import parse_project, parse_project_v2, from_app, ROUTE_INFO
 from . import logger
