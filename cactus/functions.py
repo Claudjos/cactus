@@ -53,7 +53,7 @@ class HTTPTrigger(Binding):
 		super().__init__(*args, **kwargs)
 		if self.direction != "in":
 			raise ValueError("httpTrigger binding direction must be in")
-		if self.authLevel != "Anonymous":
+		if self.authLevel.lower() != "anonymous":
 			logger.warning(f"httpTrigger binding authLevel '{self.authLevel}' not supported - using 'Anonymous'")
 
 	@property

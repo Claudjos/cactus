@@ -40,10 +40,19 @@ def adjust_route_for_flask_with_optional_params(route: str) -> list[str]:
 	A route defined on Azure as /resources/{resource?} becomes two routes in flask:
 	/resources, and /resources/{resource}."""
 	route = adjust_route_for_flask(route)
-	if route.endswith("?>"):
-		return [route.replace("?>", ">"), route.rsplit("/", 1)[0]]
-	else:
-		return [route]
+	routes = [route.replace("?>", ">")]
+	try:
+		temp = route
+		while True:
+			param_end = temp.rindex("?>")
+			param_start = temp[0:param_end].rindex("<")
+			temp = temp[0:param_start]
+			if len(temp) > 1 and temp.endswith("/"):
+				temp = temp[:-1]
+			routes.append(temp.replace("?>", ">"))
+	except ValueError:
+		pass
+	return routes
 
 
 def flask_request_to_azure(req: flask.Request) -> func.HttpRequest:
