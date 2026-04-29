@@ -32,7 +32,10 @@ def parse_project(path: str) -> list[ROUTE_INFO]:
 
 def parse_project_v2(path: str) -> list[ROUTE_INFO]:
 	sys.path.insert(1, path)
-	m = importlib.import_module("function_app")
+	if "function_app" not in sys.modules:
+		m = importlib.import_module("function_app")
+	else:
+		m = importlib.reload(sys.modules["function_app"])
 	return from_app(m.app)
 
 
