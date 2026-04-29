@@ -1,0 +1,13 @@
+- request:
+    method: GET
+    uri: /json_hello_world
+  response:
+    status: 200
+    body: Hello World!
+
+- request:
+    method: GET
+    uri: /stream_hello_world
+  response:
+    status: 200
+    body: Noted!
