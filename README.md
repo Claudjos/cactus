@@ -1,8 +1,8 @@
 # Cactus
-Adapter to run an Azure Function Application with a WSGI Web Server.
+Adapter to run an Azure Function HTTP triggers with a WSGI or ASGI Web Server.
 
 #### How it works
-Given the path of a folder containing a Function App, it builds a WSGI App parsing the Function settings. The app simply calls the Function main according to the route/methods settings.
+Given the path of a folder containing a Function App, it builds a WSGI or ASGI App parsing the Function settings. The app simply calls the Function main according to the route/methods settings.
 
 #### Supported Function
 This software is meant to support only Function which use binding httpTrigger as input and http as output. No other binding types. This is not an Azure emulator.
@@ -31,11 +31,12 @@ FunctionApp
 ```
 pip install pycactus
 pip install pycactus[flask] # to use Flask as web framework
+pip install pycactus[fastapi] # to use FastAPI as web framework
 ```
 
 #### How to run
 
-###### Create a file "wsgi.py"
+###### Create a file "app.py"
 ```
 from cactus.appfactory import build_app
 app = build_app("YourFunctionAppFolder")
@@ -50,10 +51,16 @@ Or, for V2 projects:
 from cactus.flask import build_app_v2
 app = build_app_v2("YourFunctionAppFolder")
 ```
-###### Run it with a WSGI Web Server
+Or, for FastAPI projects:
 ```
-gunicorn wsgi:app
-uwsgi --http localhost:7071 --module wsgi:app
+from cactus.fastapi import build_app_v2
+app = build_app_v2("YourFunctionAppFolder")
+```
+###### Run it with a WSGI or ASGI Web Server
+```
+gunicorn app:app
+uwsgi --http localhost:7071 --module app:app
+uvicorn app:app
 ```
 Checkout the [examples](https://github.com/Claudjos/cactus/tree/main/examples) for more.
 
@@ -74,6 +81,16 @@ from cactus.route_info import parse_project_v2
 app = flask.Flask(__name__)
 b = build_blueprint("myfunctionapp", parse_project_v2("/path"))
 app.register_blueprint(b)
+```
+
+### Using FastAPI APIRouter
+```
+from cactus.fastapi import build_api_router
+from cactus.route_info import parse_project_v2
+
+app = fastapi.FastAPI()
+b = build_api_router("myfunctionapp", parse_project_v2("/path"))
+app.include_router(b)
 ```
 
 #### Testing

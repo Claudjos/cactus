@@ -1,9 +1,11 @@
 azure-functions
 flask
+fastapi
+azurefunctions-extensions-http-fastapi
 
 pytest
 pytest-coverage
 ddt
 pyyaml
 gunicorn
-pyfir>=0.0.3
+pyfir>=1.0.0
