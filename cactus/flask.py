@@ -123,7 +123,7 @@ def build_app_v2(app: Union[str, "azure.functions.FunctionApp"]) -> flask.app.Fl
 		return _build_app(from_app(app))
 
 
-def _build_app(route_infos: list[ROUTE_INFO], name: str = "<app>") -> flask.app.Flask:
+def _build_app(route_infos: list[ROUTE_INFO], name: str = "app") -> flask.app.Flask:
 	app = flask.Flask(__name__)
 	app.register_blueprint(
 		build_blueprint(
